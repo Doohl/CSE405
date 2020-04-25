@@ -10,17 +10,25 @@
  * 
  */
 
-const sampleObject = {
-	subObject: {
-		value: "hello",
-	},
-	subArray: [
-		"world"
-	]
-};
+var mainObject = JSON.parse(`
+{
+	"counter": 0,
+	"hello": "world",
+	"some_array": [
+		1, "hello", {"name": "object"}
+	],
+	"some_object": {
+		"reverse_counter": 0
+	}
+}
+`);
 
-const getHelloWorld = () => {
-	return `${sampleObject.subObject.value} ${sampleObject.subArray[0]}`;
+var counter = 0;
+
+const getMessage = () => {
+	++mainObject.counter;
+	--mainObject.some_object.reverse_counter;
+	return JSON.stringify(mainObject); 
 };
 
 const port = 8000;
@@ -29,7 +37,7 @@ var http = require('http');
 
 http.createServer((request, response) => {
 	response.writeHead(200, {'Content-Type': 'text/plain'});
-	response.end(getHelloWorld());
+	response.end(getMessage());
 }).listen(port);
 
 console.log(`Hello World server is running on port ${port}`);
