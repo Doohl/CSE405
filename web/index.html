@@ -1,8 +1,47 @@
 <html>
 <head>
     <title>Simple Chat Test (CSE 405)</title>
+    <link rel="stylesheet" href="./client.css">
+
+    <!-- Firebase SDK -->
+
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-app.js"></script>
+
+    <!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+    <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-analytics.js"></script>
+
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-firestore.js"></script>
+
+    <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+
 </head>
 <body>
-Hello world
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+          apiKey: "AIzaSyBbFg8HSo3ul_ASuuVV4izMhBBENSGRJIM",
+          authDomain: "chat-test-bfb79.firebaseapp.com",
+          databaseURL: "https://chat-test-bfb79.firebaseio.com",
+          projectId: "chat-test-bfb79",
+          storageBucket: "chat-test-bfb79.appspot.com",
+          messagingSenderId: "95352615310",
+          appId: "1:95352615310:web:027fb5ea32e7477121f4df",
+          measurementId: "G-6829VW7V8B"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+    </script>
+    <script src="./client.js"></script>
+
+    <h1>Firebase Auth Test</h1>
+    <div id='firebaseui-auth-container'></div>
+    <div id="loader">Loading...</div>
+    <b><div id="success"></div></b>
+
 </body>
 </html>
