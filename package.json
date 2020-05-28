@@ -1,0 +1,24 @@
+{
+  "name": "cse405_chattest",
+  "version": "1.0.0",
+  "description": "A simple chat test application for CSE 405",
+  "main": "server/app.js",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Doohl/CSE405.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Doohl/CSE405/issues"
+  },
+  "homepage": "https://github.com/Doohl/CSE405#readme"
+}
