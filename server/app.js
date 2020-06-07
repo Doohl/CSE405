@@ -11,4 +11,5 @@
  *  npm run
  */
 
-require("./static_server");
+// Do not use ExpressJS anymore!
+// require("./static_server");
