@@ -1,7 +1,8 @@
 
 window.onload = () => {
 
-    var ui = new firebaseui.auth.AuthUI(firebase.auth());
+    var authContainer = firebase.auth();
+    var ui = new firebaseui.auth.AuthUI(authContainer);
 
     ui.start('#firebaseui-auth-container', {
         callbacks: {
@@ -14,11 +15,10 @@ window.onload = () => {
             }
         },
         signInFlow: 'popup',
-        // signInSuccessUrl: 'http://localhost:5555',
+        signInSuccessUrl: 'https://cse405-chat-test.herokuapp.com/',
         signInOptions: [
             {
-            provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
-            requireDisplayName: false
+                provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
             }
         ]
     });
