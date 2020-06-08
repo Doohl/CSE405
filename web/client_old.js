@@ -1,3 +1,4 @@
+
 var client = {
 	displayName: "N/A",
 	email: "N/A",
@@ -7,19 +8,24 @@ var client = {
 var uiAuthConfig = {
 	callbacks: {
 		signInSuccessWithAuthResult: function(authResult) {
+			// document.getElementById('success').innerText = "Successfully logged in!";
 			return false;
 		},
 		uiShown: function() {
+			// document.getElementById('loader').style.display = 'none';
 		}
 	},
 	credentialHelper: firebaseui.auth.CredentialHelper.NONE,
 	signInFlow: 'popup',
+	//signInSuccessUrl: 'https://chat-test-bfb79.web.app/',
 	signInOptions: [
 		{
 			provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
 		}
 	]
 };
+
+var socketConnection;
 
 var addMsg = (content, displayName, customClass) => {
 	let html;
@@ -32,23 +38,39 @@ var addMsg = (content, displayName, customClass) => {
 }
 
 var initApp = () => {
-	
+
 	firebase.auth().onAuthStateChanged(user => {
 		if(user) {
 			client.displayName = user.displayName;
 			client.email = user.email;
 			client.uid = user.uid;
+
+			// Open socket when the user has been authenticated only
+			socketConnection = new WebSocket("ws://cse405-chat-test.herokuapp.com:5555");
+			// socketConnection = new WebSocket("ws://localhost:5555");
+			socketConnection.onopen = event => {
+				socketConnection.send(JSON.stringify({'getMsgs': true}));
+			};
+			socketConnection.onmessage = event => {
+				const data = JSON.parse(event.data);
+				
+				if(data.content) {
+					addMsg(data.content, data.displayName);
+				} else if(data.msgs) {
+					data.msgs.forEach(msg => {
+						addMsg(msg.content, msg.displayName);
+					});
+					document.getElementById('loading-msg').remove();
+				}
+			};
+			socketConnection.onerror = e => {
+				console.log(e);
+			};
 		} else {
 			let ui = new firebaseui.auth.AuthUI(firebase.auth());
 			ui.start('#firebaseui-auth-container', uiAuthConfig);
 		}
 		console.log(client);
-	});
-
-	const messagesRef = firebase.database().ref('messages');
-	messagesRef.on('child_added', event => {
-		const msg = event.val();
-		addMsg(msg.content, msg.displayName);
 	});
 }
 
@@ -59,13 +81,11 @@ var sendMessage = () => {
 		return;
 	}
 	let content = document.getElementById('input-box').innerText;
-	document.getElementById('input-box').innerHTML = "";
-
-	let newMsgRef = firebase.database().ref('messages').push();
-	newMsgRef.set({
-		'displayName': client.displayName,
+	socketConnection.send(JSON.stringify({
+		'uid': client.uid,
 		'content': content
-	});
+	}));
+	document.getElementById('input-box').innerHTML = "";
 }
 
 var initUI = () => {
