@@ -17,7 +17,7 @@
 const WebSocket = require('ws');
 
 const admin = require('firebase-admin');
-const serviceAccount = require("../chat-test-credentials.json");
+// const serviceAccount = require("../chat-test-credentials.json");
 // admin.initializeApp({
 // 	credential: admin.credential.cert(serviceAccount),
 // 	databaseURL: "https://chat-test-bfb79.firebaseio.com"
