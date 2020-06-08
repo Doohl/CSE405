@@ -18,8 +18,17 @@ const WebSocket = require('ws');
 
 const admin = require('firebase-admin');
 const serviceAccount = require("../chat-test-credentials.json");
+// admin.initializeApp({
+// 	credential: admin.credential.cert(serviceAccount),
+// 	databaseURL: "https://chat-test-bfb79.firebaseio.com"
+// });
 admin.initializeApp({
-	credential: admin.credential.cert(serviceAccount),
+	credentials: admin.credential.cert({
+		"private_key": process.env.FIREBASE_PRIVATE_KEY,
+		"client_email": process.env.FIREBASE_CLIENT_EMAIL,
+		"project_id": process.env.FIREBASE_PROJECT_ID,
+		"client_id": process.env.FIREBASE_CLIENT_ID,
+	}),
 	databaseURL: "https://chat-test-bfb79.firebaseio.com"
 });
 

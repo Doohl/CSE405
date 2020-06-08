@@ -46,8 +46,8 @@ var initApp = () => {
 			client.uid = user.uid;
 
 			// Open socket when the user has been authenticated only
-			// socketConnection = new WebSocket("wss://cse405-chat-test.herokuapp.com/");
-			socketConnection = new WebSocket("ws://localhost:5555");
+			socketConnection = new WebSocket("wss://cse405-chat-test.herokuapp.com:5555");
+			// socketConnection = new WebSocket("ws://localhost:5555");
 			socketConnection.onopen = event => {
 				socketConnection.send(JSON.stringify({'getMsgs': true}));
 			};
@@ -62,6 +62,9 @@ var initApp = () => {
 					});
 					document.getElementById('loading-msg').remove();
 				}
+			};
+			socketConnection.onerror = e => {
+				console.log(e);
 			};
 		} else {
 			let ui = new firebaseui.auth.AuthUI(firebase.auth());
